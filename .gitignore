@@ -1,0 +1,82 @@
+// Global Variables
+float amplitude = 50;
+float frequency = 0.05;
+float phase = 0;
+
+// The function that gets called at the very first frame
+void setup() {
+  size(1280, 720);
+  background(0);
+}
+
+// The function that gets called every frame
+void draw() {
+  background(0);
+  
+  translate(width / 2, height / 2); // Move origin to center
+  
+  drawCartesianPlane();
+  drawLinearFunction();
+  drawQuadraticFunction();
+  drawSinWave();
+  
+  phase += 0.1; // Moves sine wave
+}
+
+// Draw Cartesian Plane
+void drawCartesianPlane() {
+  stroke(255);
+  strokeWeight(1.5);
+  
+  // Axes
+  line(-width / 2, 0, width / 2, 0);
+  line(0, -height / 2, 0, height / 2);
+  
+  // Grid lines every 50 pixels
+  for (int i = -width / 2; i < width / 2; i += 50) {
+    stroke(100);
+    line(i, -height / 2, i, height / 2);
+    line(-width / 2, i, width / 2, i);
+  }
+}
+
+// Graph the Linear Function: f(x) = -5x + 30
+void drawLinearFunction() {
+  stroke(157, 0, 255); // Purple color
+  strokeWeight(2);
+  
+  for (float x = -width / 2; x < width / 2; x += 1) {
+    float y = -5 * (x / 50) + 30;
+    point(x, -y * 10);
+  }
+}
+
+// Graph the Quadratic Function: f(x) = x^2 - 15x - 3
+void drawQuadraticFunction() {
+  stroke(255, 255, 0); // Yellow color
+  strokeWeight(2);
+  
+  for (float x = -width / 2; x < width / 2; x += 1) {
+    float y = (sq(x / 50) - 15 * (x / 50) - 3);
+    point(x, -y * 10);
+  }
+}
+
+// Graph the Animated Sine Wave
+void drawSinWave() {
+  stroke(0, 0, 255); // Blue color
+  strokeWeight(2);
+  
+  for (float x = -width / 2; x < width / 2; x += 1) {
+    float y = amplitude * sin(frequency * x + phase);
+    point(x, -y);
+  }
+}
+
+// Key controls for sine wave
+void keyPressed() {
+  if (key == 'w') amplitude += 5;
+  if (key == 's') amplitude -= 5;
+  if (key == 'd') frequency += 0.01;
+  if (key == 'a') frequency -= 0.01;
+}
